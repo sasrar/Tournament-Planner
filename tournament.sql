@@ -9,8 +9,6 @@
 create table players (
 	id serial primary key,
 	name text
-    --wins integer default 0,
-    --matches integer default 0
 );
 
 create table matches (
@@ -20,18 +18,21 @@ create table matches (
 	winner integer
 );
 
+-- Creating view to get aggregate of wins for each player in the players table
 create view playerWins as
 select p.id, p.name, count(case m.winner when p.id then 1 else NULL end) as wins, count(case m.winner when -1 then 1 else NULL end) as draws
 from players p
 left join matches m on m.player1 = p.id or m.player2 = p.id
 group by p.id, p.name;
 
+-- Creating view to get aggregate of matches for each player in the players table according to the matches table
 create view playerMatches as
 select p.id as player, count(m.player1) as matches
 from players p
 left join matches m on p.id = m.player1 or p.id = m.player2
 group by p.id;
 
+-- Creating view to get standings for each player in the players table according to the wins, draws, and losses they have
 create view playerStandings as
 select w.id, w.name, w.wins, m.matches
 from playerWins w
