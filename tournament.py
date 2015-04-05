@@ -79,7 +79,8 @@ def reportMatch(winner, loser, isDraw):
     Args:
       winner:  the id number of the player who won
       loser:  the id number of the player who lost
-      isDraw:  whether the match was a draw
+      isDraw:  whether the match was a draw. 
+               Depending on this value the matches table will be inserted with the correct winner value.
     """
     
     if isDraw:
