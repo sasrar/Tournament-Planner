@@ -9,4 +9,5 @@ tournament_test.py:
     Includes unit tests for various testing scenarios including adding and deleting matches,
     adding or deleting players, getting player standings, and getting the next round match pairings.
     
-Note: to run the tests you need to have the pscopg2 module installed on your machine.
+Note: to run the tests you need to run the sql file, configure tournament.py to point to the right database,
+        and have the pscopg2 module installed on your machine.
