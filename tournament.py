@@ -73,16 +73,23 @@ def playerStandings():
     return standings
 
 
-def reportMatch(winner, loser):
+def reportMatch(winner, loser, isDraw):
     """Records the outcome of a single match between two players.
 
     Args:
       winner:  the id number of the player who won
       loser:  the id number of the player who lost
+      isDraw:  whether the match was a draw
     """
+    
+    if isDraw:
+        result = -1
+    else:
+        result = winner
+    
     conn = connect()
     cur = conn.cursor()
-    cur.execute("insert into matches(player1,player2,winner) values (%s,%s,%s)", ((winner,),(loser,),(winner,)))
+    cur.execute("insert into matches(player1,player2,winner) values (%s,%s,%s)", ((winner,),(loser,),(result,)))
     conn.commit()
     conn.close()
  
