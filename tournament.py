@@ -66,7 +66,7 @@ def playerStandings():
     return executeStatement('select * from playerStandings')
 
 
-def reportMatch(winner, loser, isDraw):
+def reportMatch(winner, loser, isDraw = False):
     """Records the outcome of a single match between two players.
 
     Args:
