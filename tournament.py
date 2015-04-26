@@ -103,8 +103,10 @@ def swissPairings():
     nextRoundMatches = []
     
     # Iterate through players in player standings and keep pairing two players together
-    for i in xrange(0,len(standings),2):
-        t = standings[i][0],standings[i][1],standings[i+1][0],standings[i+1][1]
-        nextRoundMatches.append(t)
-        
+    while len(standings) > 0:
+        player1 = standings.pop()
+        player2 = standings.pop()
+        t = player1[0],player1[1],player2[0],player1[1]
+        nextRoundMatches.insert(0,t)
+    
     return nextRoundMatches
