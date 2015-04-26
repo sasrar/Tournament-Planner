@@ -9,31 +9,33 @@ def connect():
     """Connect to the PostgreSQL database.  Returns a database connection."""
     return psycopg2.connect("dbname=tournament")
 
+def executeStatement(query,parameter=''):
+    """Connects to database, executes statement, and commits the statement execution."""
+    conn = connect()
+    cur = conn.cursor()
+    cur.execute(query,parameter)
+    conn.commit()
+    #if not "Delete" in query and not "insert" in query:
+    try:
+        result = cur.fetchall()
+    except:
+        result = ''
+    conn.close()
+    
+    return result
 
 def deleteMatches():
     """Remove all the match records from the database."""
-    conn = connect()
-    cur = conn.cursor()
-    cur.execute('Delete from matches')
-    conn.commit()
-    conn.close()
-
+    executeStatement('Delete from matches')
 
 def deletePlayers():
     """Remove all the player records from the database."""
-    conn = connect()
-    cur = conn.cursor()
-    cur.execute('Delete from players')
-    conn.commit()
-    conn.close()
+    executeStatement('Delete from players')
 
 def countPlayers():
     """Returns the number of players currently registered."""
-    conn = connect()
-    cur = conn.cursor()
-    cur.execute('select count(*) from players')
-    numPlayers = cur.fetchall()
-    conn.close()
+    numPlayers = executeStatement('select count(*) from players')
+    
     return numPlayers[0][0]
 
 def registerPlayer(name):
@@ -45,11 +47,7 @@ def registerPlayer(name):
     Args:
       name: the player's full name (need not be unique).
     """
-    conn = connect()
-    cur = conn.cursor()
-    cur.execute("insert into players(name) values (%s)", (name,))
-    conn.commit()
-    conn.close()
+    executeStatement("insert into players(name) values (%s)", (name,))
 
 
 def playerStandings():
@@ -65,12 +63,7 @@ def playerStandings():
         wins: the number of matches the player has won
         matches: the number of matches the player has played
     """
-    conn = connect()
-    cur = conn.cursor()
-    cur.execute('select * from playerStandings')
-    standings = cur.fetchall()
-    conn.close()
-    return standings
+    return executeStatement('select * from playerStandings')
 
 
 def reportMatch(winner, loser, isDraw):
@@ -79,8 +72,7 @@ def reportMatch(winner, loser, isDraw):
     Args:
       winner:  the id number of the player who won
       loser:  the id number of the player who lost
-      isDraw:  whether the match was a draw. 
-               Depending on this value the matches table will be inserted with the correct winner value.
+      isDraw:  whether the match was a draw
     """
     
     if isDraw:
@@ -88,11 +80,7 @@ def reportMatch(winner, loser, isDraw):
     else:
         result = winner
     
-    conn = connect()
-    cur = conn.cursor()
-    cur.execute("insert into matches(player1,player2,winner) values (%s,%s,%s)", ((winner,),(loser,),(result,)))
-    conn.commit()
-    conn.close()
+    executeStatement("insert into matches(player1,player2,winner) values (%s,%s,%s)", ((winner,),(loser,),(result,)))
  
  
 def swissPairings():
