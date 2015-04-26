@@ -102,11 +102,22 @@ def swissPairings():
     standings = playerStandings()
     nextRoundMatches = []
     
-    # Iterate through players in player standings and keep pairing two players together
+    # Iterate through players in player standings and keep pairing two players together starting
+    #   from the lowest ranked players
+    #   e.g.:
+    #       Standings:
+    #       1 Tom Scott
+    #       2 Vivek Singh
+    #       3 Gee Singh
+    #       4 Foo Singh
+    #
+    #       Result:
+    #       1 Tom Scott 2 Vivek Singh
+    #       3 Gee Singh 2 Foo Singh
     while len(standings) > 0:
         player1 = standings.pop()
         player2 = standings.pop()
-        t = player1[0],player1[1],player2[0],player1[1]
+        t = player2[0],player2[1],player1[0],player1[1]
         nextRoundMatches.insert(0,t)
     
     return nextRoundMatches
