@@ -98,8 +98,11 @@ def swissPairings():
         id2: the second player's unique id
         name2: the second player's name
     """
+    # Get latest standings for players according to wins, losses, and draws
     standings = playerStandings()
     nextRoundMatches = []
+    
+    # Iterate through players in player standings and keep pairing two players together
     for i in xrange(0,len(standings),2):
         t = standings[i][0],standings[i][1],standings[i+1][0],standings[i+1][1]
         nextRoundMatches.append(t)
