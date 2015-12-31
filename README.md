@@ -1,7 +1,7 @@
 # Tournament-Planner
 This is a Python module to keep track of players and matches in a game tournament.
 
-tournament.py: 
+tournament.py:
     Includes code to connect to the database and populate it with player and match data. 
     It also includes code to get player standings and the next round match pairings.
 
@@ -9,7 +9,7 @@ tournament_test.py:
     Includes unit tests for various testing scenarios including adding and deleting matches,
     adding or deleting players, getting player standings, and getting the next round match pairings.
     
-Steps to run: 
+Steps to run:
 	Before running the program you need to use the create database command in psql to create the database. Use the name 'tournament' for your database.
 	
 	Now you can connect to the tournament database and create the database tables and views written in tournament.sql. You can do this in two ways:
